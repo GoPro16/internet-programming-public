@@ -11,7 +11,7 @@ Run the App:
 ```bash
 $ npm start
 ```
-Go To local address for control panel
+If the app doesn't automatically send you to the address then open the browser to local address for control panel.
 ```html
-localhost:8080/
+localhost:3000/
 ```
