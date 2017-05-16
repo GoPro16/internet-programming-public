@@ -1,0 +1,20 @@
+p{
+    font-family:"sans-serif";
+    color:white;
+}
+h1,h2,h3,h4,h5{
+    font-family:"sans-serif";
+}
+
+body{
+    margin: 0px 0px 0px 0px;
+}
+
+hr{
+    color:black;
+}
+
+html{
+    background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFwDL56ff-GKtWJwGVeQSDe6LxLRmwtD5UIqOtmaIz8E-mbIesyAYZRtgN');
+    background-repeat: repeat;
+}

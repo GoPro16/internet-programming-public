@@ -1,0 +1,30 @@
+.profile{
+}
+.about{
+    height:100%;
+}
+
+.panel-link{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom:15px;
+}
+.jumbotron{
+padding-top:10px;
+padding-bottom: 10px;
+margin-bottom:10px;
+background:#2e6da4;
+color:white;
+}
+
+
+.favorites{
+    height:100%;
+}
+
+.label{
+    font-size:.8em;
+}
+.label a{
+    color:white;
+}
