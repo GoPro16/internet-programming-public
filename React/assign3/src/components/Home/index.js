@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "./style.scss";
 import StatisticPanel from "../StatisticPanel";
-import style from "bootstrap/dist/css/bootstrap.css";
-import * as bs from 'react-bootstrap';
+import "bootstrap/dist/css/bootstrap.css";
+import * as bs from "react-bootstrap";
 
 class Home extends Component {
   constructor(props) {
@@ -10,10 +10,10 @@ class Home extends Component {
 
     this.state = {
       output: false,
-      integers: ""
+      currentIntegers: "",
+      intList: []
     };
   }
-
 
   updatePage() {
     if (this.state.home) {
@@ -31,53 +31,83 @@ class Home extends Component {
     }
   }
 
-  updateIntegers(event){
-    this.setState({integers:event.target.value});
+  updateIntegers(event) {
+    this.setState({ currentIntegers: event.target.value });
   }
-  calculate(event){
-   event.preventDefault();
-   this.setState({output:true});
-  }
-
-  getOutput(){
-      if(this.state.output){
-          return <StatisticPanel integers={this.state.integers}/>;
-      }else{
-          return null;
-      }
+  calculate(event) {
+    event.preventDefault();
+    var arr = this.state.intList;
+    arr.push(this.state.currentIntegers);
+    this.setState({
+      intList: arr,
+      output: true,
+      currentIntegers: ""
+    });
   }
 
-  reset(event){
-      event.preventDefault();
-      this.setState({output:false});
+  getOutput() {
+    if (this.state.output) {
+      return <StatisticPanel integers={this.state.intList} />;
+    } else {
+      return null;
+    }
+  }
+
+  reset(event) {
+    event.preventDefault();
+    this.setState({ 
+      output: false,
+      intList:[]
+     });
   }
 
   render() {
     return (
       <div className="container">
-        <div className="thumbnail">
-          
+        <div className="jumbotron">
+          <h1>Statistics Calculator</h1>
+        </div>
+        <div>
+          This page will take in a list of numbers seperated by spaces and perform Statistical 
+          calculations on them. The output will be displayed in a table below. You may enter as
+          many inputs as you like and the table will grow with more inputs.
         </div>
         <div className="input-container">
           <form onSubmit={this.calculate.bind(this)} className="math-form">
             <bs.FormGroup controlId="formControlsText">
-                <bs.ControlLabel>Integers</bs.ControlLabel>
-                <bs.FormControl
+              <bs.ControlLabel>Integers</bs.ControlLabel>
+              <bs.FormControl
                 ref="integers"
-                type="text"
-                placeholder="Enter Array of Integers"
-                value={this.state.integers}
+                componentClass="textarea"
+                placeholder="Enter Array Of Integers Seperated By Space"
+                value={this.state.currentIntegers}
+                style={{ height: 200 }}
                 onChange={this.updateIntegers.bind(this)}
-                />
+              />
             </bs.FormGroup>
-            <button className="btn btn-default calculateButton">Calculate</button>
-            <a href="" onClick={this.reset.bind(this)} className="btn btn-primary">Reset</a>
+            <div className="row stat-buttons">
+              <button className="btn btn-success calculateButton col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                Calculate
+              </button>
+              <a
+                href=""
+                onClick={this.reset.bind(this)}
+                className="btn btn-danger col-lg-6 col-md-6 col-sm-6 col-xs-12"
+              >
+                Reset
+              </a>
+            </div>
           </form>
         </div>
         <div className="output-container">
-        {this.getOutput()}
+          {this.getOutput()}
         </div>
-        <a href="../" className="btn btn-primary">Go Back</a>
+        <a
+          href="../"
+          className="go-back btn btn-primary col-xs-12 col-sm-12 col-md-12 col-lg-12"
+        >
+          Go Back
+        </a>
       </div>
     );
   }

@@ -1,0 +1,25 @@
+.jumbotron {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 100px;
+    background: #2e6da4;
+    color: white;
+}
+
+.go-back {
+    margin: 0 0;
+    margin-top:100px;
+}
+
+.form{
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    border: 1px solid black;
+    margin: 0 300px;
+}
+
+.form-field{
+    width:200px;
+    margin-bottom:15px;
+}

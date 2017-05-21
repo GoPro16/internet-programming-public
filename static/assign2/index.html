@@ -16,7 +16,7 @@
                 email = document.getElementById("email"),
                 password = document.getElementById("password"),
                 male = document.getElementById("male"),
-                female = document.getElementById("female");
+                female = document.getElementById("female"); 
             var ticket = {
                 firstName: firstName.value,
                 lastName: lastName.value,
@@ -42,7 +42,7 @@
             if (email.value == "") {
                 error = true;
                 var button = document.querySelector(".e-mail");
-                button.classList.add("has-error");
+                button.classList.add("has-error");      
             } else {
                 var button = document.querySelector(".e-mail");
                 button.classList.remove("has-error");

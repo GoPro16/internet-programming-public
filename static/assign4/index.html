@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Forms</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="../standard.css" />
+    <link rel="icon" href="../favicon.ico">
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>How to Brew Espresso</h1>
+        </div>
+        <div class="col-lg-3 steps">
+            <h3><b>Instructions</b></h3>
+            <hr style="border-top:1px solid black;margin-top:0px;" />
+            <ul style="margin-top:30px;">
+                <li id="step-one" class="instruction">
+                    <h4 class="instruction-header">Step One</h4>
+                    <div class="instruction-desc">-Fill the beans into the filter.</div>
+                </li>
+                <li id="step-two" class="instruction">
+                    <h4 class="instruction-header">Step Two</h4>
+                    <div class="instruction-desc">-Fill the pot with water and pour into maker.</div>
+                </li>
+                <li id="step-three" class="instruction">
+                    <h4 class="instruction-header">Step Three</h4>
+                    <div class="instruction-desc">-Attach filter and pot onto the Espresso Maker.</div>
+                </li>
+                <li id="step-four" class="instruction">
+                    <h4 class="instruction-header">Step Four</h4>
+                    <div class="instruction-desc">-Turn Espresso Nozzle clockwise to begin brewing.</div>
+                </li>
+                <li class="instruction">
+                    <h4 class="instruction-header">Step Five</h4>
+                    <div class="instruction-desc">-Enjoy the espresso!</div>
+                </li>
+            </ul>
+            <hr style="border-top:1px solid black;margin-top:0px;" />
+            <a href="" class="reset btn btn-success">RESET</a>
+        </div>
+        <div class="col-lg-9 concept">
+            <canvas id="concept" height="600" width="840">
+            </canvas>
+            <audio id="audio" src="./audio/brewing.mp3" />
+        </div>
+        <!-- Flow Chart-->
+        <a class="go-back col-sm-12 col-md-12 col-lg-12 btn btn-primary" href="../index.html">Go Back</a>
+    </div>
+    <script>
+        //Images
+        var maker = new Image(), scooper = new Image(), pot = new Image(),
+            filter = new Image(), beans = new Image();
+
+        function init() {
+            setInterval(draw, 1000);
+            maker.src = "./images/maker.gif";
+            scooper.src = "./images/scooper.gif";
+            filter.src = "./images/filter.gif";
+            pot.src = "./images/pot.gif";
+            beans.src = "./images/beans.gif";
+            window.requestAnimationFrame(draw);
+        }
+
+        //Movements
+        var audio = document.getElementById("audio");
+        var mainCanvas = document.querySelector("#concept");
+        var ctx = mainCanvas.getContext("2d");
+        var time = new Date();
+        let startT = time.getMilliseconds();
+        var canvasWidth = mainCanvas.width;
+        var canvasHeight = mainCanvas.height;
+
+        var angle = 0;
+        var requestAnimationFrame = window.requestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.msRequestAnimationFrame;
+
+
+        //Animation Vars
+        var step = "one";
+        var xScoop = (canvasHeight / 2);
+        var yScoop = (canvasWidth / 2) - 400;
+        var angle = 0;
+        var partTwo = false;
+        var isPlaying = false;
+        function draw() {
+            ctx.globalCompositionOperation = 'destination-over';
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+            ctx.save();
+            switch (step) {
+                case "one":
+                    if (!partTwo) {
+                        if (xScoop < 50) {
+                            yScoop += 3;
+                            if (yScoop >= 200) {
+                                document.getElementById("step-one").style = "text-decoration:line-through;";
+                                partTwo = true;
+                                yScoop -= 200;
+                            }
+                        } else {
+                            xScoop -= 2;
+                        }
+                    } else {//partwo
+                        if(xScoop < 450){
+                            xScoop+=2;
+                        }else{
+                            yScoop+=1;
+                            if(yScoop>=200){
+                                step="two";
+                                xScoop=50;
+                                yScoop-=250;
+                            }
+                        }
+                        ctx.drawImage(filter,300,200);
+                    }
+                    ctx.drawImage(scooper, xScoop, yScoop);
+                    ctx.drawImage(beans, (canvasWidth / 2) - 400, (canvasHeight / 2) - 200);
+                    break;
+                case "two":
+                    if (xScoop >= 250) {
+                        angle += 0.5;
+                        ctx.save();
+                        ctx.translate(350, 10);
+                        ctx.rotate(angle * Math.PI / 180);
+                        ctx.drawImage(pot, -146, 0);
+                        ctx.restore();
+                        if (angle >= 50) {
+                            document.getElementById("step-two").style = "text-decoration:line-through;";
+                            xScoop = -400;
+                            yScoop = canvasHeight / 2;
+                            step = "three";
+                            angle = 0;
+                        }
+                    } else {
+                        xScoop += 1;
+                        ctx.drawImage(pot, xScoop, yScoop);
+                    }
+
+                    ctx.drawImage(maker, (canvasWidth / 2) - 300, (canvasHeight / 2) - 250);
+
+                    ctx.fillStyle = "#232323";
+                    ctx.fillRect((canvasWidth / 2) - 115, (canvasHeight / 2) - 145, 80, 20);
+                    break;
+                case "three":
+                    if (xScoop >= 50) {
+                        document.getElementById("step-three").style = "text-decoration:line-through;";
+                        step = "four";
+                    } else {
+                        xScoop += 1;
+                    }
+                    ctx.drawImage(filter, xScoop + 50, yScoop - 100);
+                    ctx.drawImage(pot, xScoop, yScoop + 75);
+                    ctx.drawImage(maker, (canvasWidth / 2) - 300, (canvasHeight / 2) - 250);
+                    ctx.fillStyle = "#232323";
+                    ctx.fillRect((canvasWidth / 2) - 115, (canvasHeight / 2) - 145, 80, 20);
+                    break;
+                case "four":
+                    if(!isPlaying){
+                        audio.play();
+                    }
+                    ctx.drawImage(pot, xScoop, yScoop + 75);
+                    ctx.fillStyle = "brown";
+                    ctx.fillRect(315, 250, 30, 300);
+
+                    ctx.drawImage(filter, xScoop + 50, yScoop - 100);
+                    ctx.drawImage(maker, (canvasWidth / 2) - 300, (canvasHeight / 2) - 250);
+                    ctx.save();
+                    if (angle < 1) {
+                        angle += .0008;
+                    } else {
+                        document.getElementById("step-four").style = "text-decoration:line-through;";
+                        step = "five";
+                        audio.pause();
+                    }
+                    ctx.translate((canvasWidth / 2) - 70, (canvasHeight / 2) - 145);
+                    ctx.rotate(angle * Math.PI / 2);
+                    ctx.fillStyle = "#232323";
+                    ctx.fillRect(-35, 0, 80, 20);
+
+                    ctx.restore();
+                    break;
+                case "five":
+                    ctx.drawImage(filter, xScoop + 50, yScoop - 100);
+                    ctx.drawImage(pot, xScoop, yScoop + 75);
+                    ctx.fillStyle = "brown";
+                    ctx.fillRect(222, 450, 182, 100);
+                    ctx.drawImage(maker, (canvasWidth / 2) - 300, (canvasHeight / 2) - 250);
+                    ctx.save();
+                    ctx.translate((canvasWidth / 2) - 70, (canvasHeight / 2) - 145);
+                    ctx.rotate(angle * Math.PI / 2);
+                    ctx.fillStyle = "#232323";
+                    ctx.fillRect(-35, 0, 80, 20);
+                    ctx.restore();
+
+                    break;
+            }
+
+            window.requestAnimationFrame(draw);
+        }
+        //Steps 
+        function scoopBeans() {
+
+        }
+
+        init();
+    </script>
+</body>
+
+</html>
