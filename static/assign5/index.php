@@ -21,25 +21,27 @@ session_start();
 </head>
 
 <body>
-    <?php 
-    $_SESSION["username"] = "";
-    $_SESSION["password"] = "";
-    ?>
     <div class="container">
-        <div class="jumbotron">
-            <h1>Hayden's Stock Portfolio Manager</h1>
+        <div class="jumbotron jum">
+            <h1>Stock Portfolio Manager</h1>
         </div>
             <div class="col-lg-12 col-md-12 col-sm-12">
             <form class="form" method="post" action="">
                 <h2>Login</h2>
                 <?php
                     if(isset($_POST['submit'])){
-                        if($_POST["username"] == "kgray" && $_POST["password"] == "alpha"){
+                        $fp = fopen("login.dat","r");
+                        $line = fgets($fp);
+                        fclose($fp);
+                        $arr = split(",",$line);
+                        if($_POST["username"] == $arr[0] && $_POST["password"] == $arr[1]){
                              $_SESSION["username"] = $_POST["username"];
                              $_SESSION["password"] = $_POST["password"];
-                            header("Location: admin.php"); /* Redirect browser */
-                            exit();
-                         }else{
+                            ?>
+                                 <meta http-equiv="Refresh" content="0; url=./admin.php">
+                            <?php
+                            
+                         }else{ 
                             ?>
                                 <p style="color:red">Invalid Username or Password</p>
                             <?php

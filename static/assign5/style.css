@@ -23,3 +23,10 @@
     width:200px;
     margin-bottom:15px;
 }
+
+#error-field {
+    color: red;
+}
+.hidden{
+    visibility:hidden;
+}

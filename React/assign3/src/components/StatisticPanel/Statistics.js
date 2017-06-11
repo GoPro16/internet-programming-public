@@ -22,6 +22,7 @@ module.exports.findMode = array => {
     })
     .pop();
 };
+
 module.exports.findVariance = array => {
   let mean = module.exports.findMean(array);
   var sum = 0;
